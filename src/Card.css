@@ -1,14 +1,10 @@
 .user__card {
     background-color: snow;
-    /*border: 1px solid black;*/
     box-shadow: 10px 10px 10px #2f2f2f;
     padding: 30px;
     margin: 20px;
     display: flex;
-    /*justify-content: center;*/
-    /*align-content: center;*/
     width: 75%;
-    
 }
 
 .user__name {
@@ -19,6 +15,7 @@
     font-size: large;
     border-right: 2px solid #2f2f2f;
 }
+
 .user__albums {
     text-align: center;
 }
@@ -28,21 +25,8 @@
     margin: 20px;
 }
 
-.user__albums__title {
-
-}
-
 .album__poster:hover {
     outline: 2px solid #2f2f2f;
-    /*opacity: 1;*/
-    /*border-radius: 0px;*/
-}
-
-
-.album__poster {
-    /*opacity: 0.4;*/
-    /*outline: 2px solid #2f2f2f;*/
-    /*border-radius: 100px;*/
 }
 
 .album__title {
@@ -57,10 +41,72 @@
     padding: 10px;
     font-size: 26px;
     background-color: #d2d2d2;
-    /*opacity: 0.7;*/
     color: #2f2f2f;
-    /*position: relative;*/
-    /*left: -46px;*/
-    /*top: -17px;*/
-    /*text-align: right;*/
+}
+
+.pic__photo.active {
+    outline: 1px solid black;
+}
+
+.pic__prev {
+    float: left;
+}
+
+.pic__next {
+    float: right;
+}
+
+.pic__next,
+.pic__prev {
+    margin-top: 30%;
+    width: 100px;
+}
+
+.pic__main > div > button {
+    width: 60px;
+    height: 60px;
+}
+
+.pic__main {
+    align-items: center;
+    justify-content: center;
+    vertical-align: center;
+}
+
+.modal__overlay {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal__content {
+    padding: 20px;
+    background-color: #d2d2d2;
+    max-width: 80vw;
+}
+
+.pic__photo {
+    display: inline-block;
+    position: relative;
+    width: 30px;
+    padding: 5px;
+}
+
+.pic__preview {
+    margin-top: 30px;
+    max-width: 30vw;
+}
+
+.pic__block {
+    display: inline-block;
+}
+
+.pic__main > img {
+    width: 400px;
 }

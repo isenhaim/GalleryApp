@@ -1,8 +1,15 @@
 import React from "react";
 import axios from "axios";
 import Card from "./Card";
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import "./App.css";
-import "./Modal.css";
+
+export function formingArray(arr, id, key) {
+    let array = [];
+    arr.map(item => item[key] === id ? array.push(item) : null);
+    return array;
+}
 
 function Modal({active, setActive, children}) {
     return (
@@ -24,8 +31,9 @@ class App extends React.Component {
         users: [],
         photos: [],
         modalActive: false,
-        albumId: 1,
-        photoId: 1
+        albumId: null,
+        photoId: null,
+        photo: 0,
     };
 
     getData = async () => {
@@ -52,35 +60,64 @@ class App extends React.Component {
         this.setState({albumId: value})
     }
 
-
-
-
     componentDidMount() {
         this.getData();
     }
 
-    formingArrayAlbums(arr, id) {
-        let array = [];
-        arr.map(item => item.userId === id ? array.push(item) : null);
-        return array;
-    }
+    // formingArrayAlbums(arr, id) {
+    //     let array = [];
+    //     arr.map(item => item.userId === id ? array.push(item) : null);
+    //     return array;
+    // }
+    //
+    // formingArrayPhotos(arr, id) {
+    //     let array = [];
+    //     arr.map(item => item.albumId === id ? array.push(item) : null);
+    //     return array;
+    // }
 
-    formingArrayPhotos(arr, id) {
-        let array = [];
-        arr.map(item => item.albumId === id ? array.push(item) : null);
-        return array;
-    }
+    imgPrev = () => {
+        this.state.photo === 0
+            ? this.setState({photo: 49})
+            : this.setState({photo: this.state.photo - 1});
+    };
+
+    imgNext = () => {
+        this.state.photo === 49
+            ? this.setState({photo: 0})
+            : this.setState({photo: this.state.photo + 1});
+    };
 
     photoGallery = () => {
-        let photosArray = this.formingArrayPhotos(this.state.photos, this.state.albumId);
-        let url = photosArray[0] ? photosArray[0].url : '';
+        let photosArray = formingArray(this.state.photos, this.state.albumId, 'albumId');
+        let photo = formingArray(this.state.photos, this.state.albumId, 'albumId')[this.state.photo]
+            ? formingArray(this.state.photos, this.state.albumId, 'albumId')[this.state.photo]
+            : '';
+
         return <>
             <div className={'pic__block'}>
-                <div>
-                    <img src={url} alt=""/>
+                <div className={"pic__main"}>
+                    <div className={"pic__prev"} >
+                        <button onClick={this.imgPrev}><FontAwesomeIcon icon={faArrowLeft} /></button>
+
+                    </div>
+
+                    <img src={photo.url} alt={photo.title}/>
+
+                    <div className={"pic__next"} >
+                        <button onClick={this.imgNext}><FontAwesomeIcon icon={faArrowRight} /></button>
+                    </div>
                 </div>
                 <div className={"pic__preview"}>
-                    {photosArray.map((item, index) => { return <img key={index} className={"pic__photo"} src={item.thumbnailUrl} alt=""/> })}
+                    {photosArray.map((item, index) => {
+                        return <img
+                            key={index}
+                            className={item.id === photo.id ? "pic__photo active" : "pic__photo"}
+                            src={item.thumbnailUrl}
+                            alt={item.title}
+                            onClick={() => this.setState({photo: index})}
+                        />
+                    })}
                 </div>
             </div>
         </>
@@ -99,7 +136,7 @@ class App extends React.Component {
                             <Card
                                 key={user.id}
                                 name={user.name}
-                                albums={this.formingArrayAlbums(albums, user.id)}
+                                albums={formingArray(albums, user.id, 'userId')}
                                 photos={photos}
                                 setActive={this.setActiveModal}
                                 getAlbumId={this.getAlbumId}
@@ -110,7 +147,6 @@ class App extends React.Component {
             </div>
         );
     }
-
 }
 
 export default App;
